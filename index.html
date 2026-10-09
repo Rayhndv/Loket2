@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Queue System - Mesin Antrian</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="brand">
+        <div class="brand-logo">SQ</div>
+        <div>
+            <h1>SMART QUEUE</h1>
+            <p>Digital Queue Management System</p>
+        </div>
+    </div>
+
+    <div class="top-info">
+        <div id="date">24 September 2026</div>
+        <strong id="clock">00:00:00</strong>
+    </div>
+</header>
+
+
+<main class="container">
+
+    <!-- =========================
+         TV DISPLAY
+    ========================== -->
+    <section class="tv-section">
+
+        <div class="section-title">
+            <span>📺</span>
+            <div>
+                <h2>Display Utama</h2>
+                <p>Informasi nomor antrean pelanggan</p>
+            </div>
+        </div>
+
+        <div class="tv">
+
+            <div class="tv-header">
+                <div>
+                    <small>SMART QUEUE SYSTEM</small>
+                    <h2>PELAYANAN NASABAH</h2>
+                </div>
+
+                <div class="live">
+                    <span></span> LIVE
+                </div>
+            </div>
+
+            <div class="current-display">
+
+                <div class="current-box">
+                    <p>NOMOR ANTREAN</p>
+
+                    <div id="currentNumber">
+                        A 000
+                    </div>
+
+                    <div class="counter-label">
+                        SILAKAN MENUJU
+                    </div>
+
+                    <div class="counter-number" id="currentCounter">
+                        LOKET -
+                    </div>
+                </div>
+
+                <div class="queue-video">
+                    <div class="video-placeholder">
+                        <div class="play-icon">▶</div>
+                        <p>VIDEO INFORMASI</p>
+                        <small>Smart Queue Information</small>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="running-list">
+
+                <div class="running-item">
+                    <small>SEBELUMNYA</small>
+                    <strong id="previousNumber">-</strong>
+                </div>
+
+                <div class="running-item">
+                    <small>SEDANG DILAYANI</small>
+                    <strong id="runningNumber">A 000</strong>
+                </div>
+
+                <div class="running-item">
+                    <small>BERIKUTNYA</small>
+                    <strong id="nextNumber">A 001</strong>
+                </div>
+
+            </div>
+
+            <div class="tv-footer">
+                <span>Harap perhatikan nomor antrean Anda</span>
+                <span id="totalQueueTV">0 Orang Menunggu</span>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- =========================
+         TICKET MACHINE
+    ========================== -->
+    <section class="machine-area">
+
+        <div class="section-title">
+            <span>🎫</span>
+            <div>
+                <h2>Ticket Dispenser</h2>
+                <p>Mesin pengambilan nomor antrean</p>
+            </div>
+        </div>
+
+        <div class="machine">
+
+            <div class="machine-top">
+                SMART
+            </div>
+
+            <div class="machine-screen">
+
+                <div class="machine-logo">
+                    SMART QUEUE
+                </div>
+
+                <div class="machine-time" id="machineClock">
+                    00:00
+                </div>
+
+                <h3>SELAMAT DATANG</h3>
+
+                <p>Silakan pilih jenis layanan</p>
+
+                <div class="service-buttons">
+
+                    <button onclick="takeTicket('A')">
+                        <span>🏦</span>
+                        <b>LAYANAN UMUM</b>
+                        <small>Loket A</small>
+                    </button>
+
+                    <button onclick="takeTicket('B')">
+                        <span>💳</span>
+                        <b>LAYANAN CS</b>
+                        <small>Loket B</small>
+                    </button>
+
+                    <button onclick="takeTicket('C')">
+                        <span>💰</span>
+                        <b>PEMBAYARAN</b>
+                        <small>Loket C</small>
+                    </button>
+
+                    <button onclick="takeTicket('D')">
+                        <span>📄</span>
+                        <b>INFORMASI</b>
+                        <small>Loket D</small>
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="printer">
+                <div class="printer-slot"></div>
+                <p>STRUK NOMOR ANTREAN</p>
+            </div>
+
+            <div class="machine-bottom">
+                SMART QUEUE SYSTEM
+            </div>
+
+        </div>
+
+        <div id="ticketPopup" class="ticket-popup">
+
+            <div class="ticket-paper">
+
+                <div class="ticket-brand">
+                    SMART QUEUE
+                </div>
+
+                <hr>
+
+                <small>NOMOR ANTREAN ANDA</small>
+
+                <div id="ticketNumber">
+                    A 001
+                </div>
+
+                <p id="ticketService">
+                    LAYANAN UMUM
+                </p>
+
+                <hr>
+
+                <small>Mohon menunggu nomor Anda dipanggil.</small>
+
+                <button onclick="closeTicket()">Tutup</button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         CLIENT DISPLAY
+    ========================== -->
+    <section class="client-section">
+
+        <div class="section-title">
+            <span>🔢</span>
+            <div>
+                <h2>Client Display</h2>
+                <p>Display nomor antrean di setiap loket</p>
+            </div>
+        </div>
+
+        <div class="client-grid">
+
+            <div class="client-card">
+                <div class="client-header">
+                    <span>LOKET</span>
+                    <strong>A</strong>
+                </div>
+
+                <div class="client-number" id="counterA">
+                    A 000
+                </div>
+
+                <div class="client-status" id="statusA">
+                    MENUNGGU
+                </div>
+            </div>
+
+
+            <div class="client-card">
+                <div class="client-header">
+                    <span>LOKET</span>
+                    <strong>B</strong>
+                </div>
+
+                <div class="client-number" id="counterB">
+                    B 000
+                </div>
+
+                <div class="client-status" id="statusB">
+                    MENUNGGU
+                </div>
+            </div>
+
+
+            <div class="client-card">
+                <div class="client-header">
+                    <span>LOKET</span>
+                    <strong>C</strong>
+                </div>
+
+                <div class="client-number" id="counterC">
+                    C 000
+                </div>
+
+                <div class="client-status" id="statusC">
+                    MENUNGGU
+                </div>
+            </div>
+
+
+            <div class="client-card">
+                <div class="client-header">
+                    <span>LOKET</span>
+                    <strong>D</strong>
+                </div>
+
+                <div class="client-number" id="counterD">
+                    D 000
+                </div>
+
+                <div class="client-status" id="statusD">
+                    MENUNGGU
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         ADMIN PANEL
+    ========================== -->
+    <section class="admin-section">
+
+        <div class="section-title">
+            <span>🖥️</span>
+            <div>
+                <h2>Control Panel</h2>
+                <p>Panel petugas untuk mengatur antrean</p>
+            </div>
+        </div>
+
+
+        <div class="dashboard">
+
+            <div class="stats">
+
+                <div class="stat-card">
+                    <span>👥</span>
+                    <div>
+                        <small>Total Antrean</small>
+                        <strong id="totalQueue">0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <span>⏳</span>
+                    <div>
+                        <small>Menunggu</small>
+                        <strong id="waitingQueue">0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <span>✅</span>
+                    <div>
+                        <small>Selesai</small>
+                        <strong id="servedQueue">0</strong>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <span>🔊</span>
+                    <div>
+                        <small>Panggilan</small>
+                        <strong id="callCount">0</strong>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="control-panel">
+
+                <div class="panel-header">
+                    <h3>Kontrol Loket</h3>
+                    <button class="reset-btn" onclick="resetSystem()">
+                        Reset Sistem
+                    </button>
+                </div>
+
+
+                <div class="counter-controls">
+
+                    <div class="counter-control">
+
+                        <div class="counter-title">
+                            <strong>LOKET A</strong>
+                            <span class="online">ONLINE</span>
+                        </div>
+
+                        <div class="operator-display" id="operatorA">
+                            A 000
+                        </div>
+
+                        <div class="control-buttons">
+                            <button onclick="callNext('A')">
+                                ▶ PANGGIL
+                            </button>
+
+                            <button onclick="repeatCall('A')">
+                                🔊 ULANG
+                            </button>
+
+                            <button onclick="skipNumber('A')">
+                                ⏭ LEWATI
+                            </button>
+                        </div>
+
+                    </div>
+
+
+                    <div class="counter-control">
+
+                        <div class="counter-title">
+                            <strong>LOKET B</strong>
+                            <span class="online">ONLINE</span>
+                        </div>
+
+                        <div class="operator-display" id="operatorB">
+                            B 000
+                        </div>
+
+                        <div class="control-buttons">
+                            <button onclick="callNext('B')">
+                                ▶ PANGGIL
+                            </button>
+
+                            <button onclick="repeatCall('B')">
+                                🔊 ULANG
+                            </button>
+
+                            <button onclick="skipNumber('B')">
+                                ⏭ LEWATI
+                            </button>
+                        </div>
+
+                    </div>
+
+
+                    <div class="counter-control">
+
+                        <div class="counter-title">
+                            <strong>LOKET C</strong>
+                            <span class="online">ONLINE</span>
+                        </div>
+
+                        <div class="operator-display" id="operatorC">
+                            C 000
+                        </div>
+
+                        <div class="control-buttons">
+                            <button onclick="callNext('C')">
+                                ▶ PANGGIL
+                            </button>
+
+                            <button onclick="repeatCall('C')">
+                                🔊 ULANG
+                            </button>
+
+                            <button onclick="skipNumber('C')">
+                                ⏭ LEWATI
+                            </button>
+                        </div>
+
+                    </div>
+
+
+                    <div class="counter-control">
+
+                        <div class="counter-title">
+                            <strong>LOKET D</strong>
+                            <span class="online">ONLINE</span>
+                        </div>
+
+                        <div class="operator-display" id="operatorD">
+                            D 000
+                        </div>
+
+                        <div class="control-buttons">
+                            <button onclick="callNext('D')">
+                                ▶ PANGGIL
+                            </button>
+
+                            <button onclick="repeatCall('D')">
+                                🔊 ULANG
+                            </button>
+
+                            <button onclick="skipNumber('D')">
+                                ⏭ LEWATI
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- HISTORY -->
+
+            <div class="history-panel">
+
+                <div class="panel-header">
+                    <h3>Riwayat Panggilan</h3>
+
+                    <button onclick="clearHistory()">
+                        Hapus Riwayat
+                    </button>
+                </div>
+
+                <div class="history-list" id="historyList">
+
+                    <div class="empty-history">
+                        Belum ada riwayat panggilan
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+    <div>
+        <strong>SMART QUEUE SYSTEM</strong>
+        <span>Digital Queue Management</span>
+    </div>
+
+    <div>
+        Sistem antrean digital • Versi 2.0
+    </div>
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
